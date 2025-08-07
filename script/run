@@ -1,0 +1,53 @@
+#!/usr/bin/env python3
+import subprocess
+import sys
+from pathlib import Path
+import venv
+
+# Define paths
+_DIR = Path(__file__).parent
+_PROGRAM_DIR = _DIR.parent
+_VENV_DIR = _PROGRAM_DIR / ".venv"
+
+# Arabic model paths - adjust these to your actual paths
+ARABIC_MODEL_PATH = "/home/malaa/Aref/nvidia/nemo-onnx2/arabic_ctc_model.onnx"
+ARABIC_TOKENS_PATH = "/home/malaa/Aref/nvidia/nemo-onnx2/tokens.txt"
+
+# Check if virtual environment exists
+context = venv.EnvBuilder().ensure_directories(_VENV_DIR)
+if not (_VENV_DIR / "pyvenv.cfg").exists():
+    print(f"Error: Virtual environment not found at {_VENV_DIR}. Please run setup script first.")
+    exit(1)
+
+# Check if model files exist
+if not Path(ARABIC_MODEL_PATH).exists():
+    print(f"Error: Arabic model not found at {ARABIC_MODEL_PATH}")
+    print("Please make sure you've exported your ONNX model to the correct location.")
+    exit(1)
+
+if not Path(ARABIC_TOKENS_PATH).exists():
+    print(f"Error: Tokens file not found at {ARABIC_TOKENS_PATH}")
+    exit(1)
+
+# Run the Arabic ASR Wyoming server
+command = [
+    context.env_exe,
+    "-m", "wyoming_onnxasr",
+    "--model-path", ARABIC_MODEL_PATH,
+    "--tokens-path", ARABIC_TOKENS_PATH,
+    "--uri", "tcp://0.0.0.0:10305"
+]
+
+# Add additional arguments if provided
+command += sys.argv[1:]
+
+print(f"Starting Arabic ASR Wyoming server...")
+print(f"Model: {ARABIC_MODEL_PATH}")
+print(f"Tokens: {ARABIC_TOKENS_PATH}")
+print(f"Command: {' '.join(command[1:])}")
+
+try:
+    subprocess.check_call(command)
+except subprocess.CalledProcessError as e:
+    print(f"Error running Arabic ASR Wyoming server: {e}")
+    exit(1)

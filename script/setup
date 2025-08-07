@@ -1,0 +1,47 @@
+#!/usr/bin/env python3
+import subprocess
+import sys
+from pathlib import Path
+import venv
+
+# Define paths
+_DIR = Path(__file__).parent
+_PROGRAM_DIR = _DIR.parent
+_VENV_DIR = _PROGRAM_DIR / ".venv"
+
+print("Setting up Arabic ASR Wyoming server...")
+
+# Create virtual environment
+print(f"Creating virtual environment at {_VENV_DIR}")
+venv.create(_VENV_DIR, with_pip=True)
+
+# Get the python executable path
+if sys.platform == "win32":
+    python_exe = _VENV_DIR / "Scripts" / "python.exe"
+    pip_exe = _VENV_DIR / "Scripts" / "pip.exe"
+else:
+    python_exe = _VENV_DIR / "bin" / "python"
+    pip_exe = _VENV_DIR / "bin" / "pip"
+
+# Upgrade pip
+print("Upgrading pip...")
+subprocess.check_call([str(pip_exe), "install", "--upgrade", "pip"])
+
+# Install requirements
+requirements_file = _PROGRAM_DIR / "requirements.txt"
+if requirements_file.exists():
+    print("Installing requirements...")
+    subprocess.check_call([str(pip_exe), "install", "-r", str(requirements_file)])
+
+# Install the package in development mode
+print("Installing wyoming_onnxasr in development mode...")
+subprocess.check_call([str(pip_exe), "install", "-e", str(_PROGRAM_DIR)])
+
+print("Setup complete!")
+print(f"\nTo run the Arabic ASR server:")
+print(f"  {_PROGRAM_DIR}/script/run")
+print(f"\nOr with custom options:")
+print(f"  {python_exe} -m wyoming_onnxasr --model-path /path/to/model.onnx --tokens-path /path/to/tokens.txt --uri tcp://0.0.0.0:10305")
+print(f"\nMake sure your model files are available at:")
+print(f"  Model: /home/malaa/Aref/nvidia/nemo-onnx2/arabic_ctc_model.onnx")
+print(f"  Tokens: /home/malaa/Aref/nvidia/nemo-onnx2/tokens.txt")

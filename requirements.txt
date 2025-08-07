@@ -1,0 +1,5 @@
+wyoming>=1.2.0
+onnxruntime>=1.15.0
+numpy
+librosa
+kaldi-native-fbank
