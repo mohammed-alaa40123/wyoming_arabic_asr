@@ -1,8 +1,9 @@
 name: "Wyoming Arabic ASR"
 version: "1.0.0"
 slug: "wyoming_arabic_asr"
-description: "Arabic Speech Recognition for Home Assistant"
-url: "https://github.com/your-username/wyoming-arabic-asr"
+description: "Arabic Speech Recognition using FastConformer CTC model for Home Assistant"
+url: "https://github.com/Mo-alaa/wyoming-arabic-asr"
+codenotary: "notary@home-assistant.io"
 arch:
   - aarch64
   - amd64
@@ -16,11 +17,14 @@ options:
   uri: "tcp://0.0.0.0:10305"
   device: "cpu"
   debug: false
+  model_repo: "Mo-alaa/arabic-fastconformer-ctc-onnx"
 schema:
   uri: "str"
   device: "list(cpu|cuda)"
   debug: "bool"
+  model_repo: "str"
 ports:
   10305/tcp: 10305
 startup: services
 boot: auto
+image: "ghcr.io/home-assistant/{arch}-base-python:3.11-alpine3.18"

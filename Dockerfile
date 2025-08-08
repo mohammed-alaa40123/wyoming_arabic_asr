@@ -14,12 +14,14 @@ RUN apk add --no-cache \
     python3-dev \
     py3-pip \
     cmake \
-    git
+    git \
+    curl \
+    ca-certificates
 
 # Install Python packages
 RUN pip3 install --no-cache-dir --upgrade pip
 
-# Install dependencies
+# Install dependencies including Hugging Face Hub
 RUN pip3 install --no-cache-dir \
     wyoming>=1.2.0 \
     onnxruntime>=1.15.0 \
@@ -27,13 +29,18 @@ RUN pip3 install --no-cache-dir \
     librosa \
     kaldi-native-fbank \
     scipy \
-    soundfile
+    soundfile \
+    huggingface-hub \
+    requests
 
 # Copy application files
 COPY rootfs /
 
 # Make run script executable
 RUN chmod a+x /run.sh
+
+# Create model cache directory
+RUN mkdir -p /share/arabic_asr_cache
 
 # Set working directory
 WORKDIR /app

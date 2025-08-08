@@ -1,53 +1,31 @@
-#!/usr/bin/env python3
-import subprocess
-import sys
-from pathlib import Path
-import venv
+#!/usr/bin/with-contenv bashio
 
-# Define paths
-_DIR = Path(__file__).parent
-_PROGRAM_DIR = _DIR.parent
-_VENV_DIR = _PROGRAM_DIR / ".venv"
+# Get configuration
+URI=$(bashio::config 'uri')
+DEVICE=$(bashio::config 'device')
+DEBUG=$(bashio::config 'debug')
+MODEL_REPO=$(bashio::config 'model_repo')
 
-# Arabic model paths - adjust these to your actual paths
-ARABIC_MODEL_PATH = "/home/malaa/Aref/nvidia/nemo-onnx2/arabic_ctc_model.onnx"
-ARABIC_TOKENS_PATH = "/home/malaa/Aref/nvidia/nemo-onnx2/tokens.txt"
+# Set log level
+if [ "$DEBUG" = "true" ]; then
+    LOG_LEVEL="--debug"
+else
+    LOG_LEVEL=""
+fi
 
-# Check if virtual environment exists
-context = venv.EnvBuilder().ensure_directories(_VENV_DIR)
-if not (_VENV_DIR / "pyvenv.cfg").exists():
-    print(f"Error: Virtual environment not found at {_VENV_DIR}. Please run setup script first.")
-    exit(1)
+bashio::log.info "Starting Wyoming Arabic ASR server..."
+bashio::log.info "Model repository: $MODEL_REPO"
+bashio::log.info "URI: $URI"
+bashio::log.info "Device: $DEVICE"
 
-# Check if model files exist
-if not Path(ARABIC_MODEL_PATH).exists():
-    print(f"Error: Arabic model not found at {ARABIC_MODEL_PATH}")
-    print("Please make sure you've exported your ONNX model to the correct location.")
-    exit(1)
+# Create cache directory
+mkdir -p /share/arabic_asr_cache
 
-if not Path(ARABIC_TOKENS_PATH).exists():
-    print(f"Error: Tokens file not found at {ARABIC_TOKENS_PATH}")
-    exit(1)
-
-# Run the Arabic ASR Wyoming server
-command = [
-    context.env_exe,
-    "-m", "wyoming_onnxasr",
-    "--model-path", ARABIC_MODEL_PATH,
-    "--tokens-path", ARABIC_TOKENS_PATH,
-    "--uri", "tcp://0.0.0.0:10305"
-]
-
-# Add additional arguments if provided
-command += sys.argv[1:]
-
-print(f"Starting Arabic ASR Wyoming server...")
-print(f"Model: {ARABIC_MODEL_PATH}")
-print(f"Tokens: {ARABIC_TOKENS_PATH}")
-print(f"Command: {' '.join(command[1:])}")
-
-try:
-    subprocess.check_call(command)
-except subprocess.CalledProcessError as e:
-    print(f"Error running Arabic ASR Wyoming server: {e}")
-    exit(1)
+# Start the server with auto-download
+cd /app
+exec python3 arabic_asr.py \
+    --model-repo "$MODEL_REPO" \
+    --cache-dir "/share/arabic_asr_cache" \
+    --uri "$URI" \
+    --device "$DEVICE" \
+    $LOG_LEVEL
