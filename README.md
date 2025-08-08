@@ -1,6 +1,6 @@
 # Wyoming Arabic ASR for Home Assistant
 
-[![Open your Home Assistant instance and show the add add-on repository dialog with a specific repository URL pre-filled.](https://my.home-assistant.io/badges/supervisor_add_addon_repository.svg)](https://my.home-assistant.io/redirect/supervisor_add_addon_repository/?repository_url=https%3A//github.com/Mo-alaa/wyoming-arabic-asr)
+[![Open your Home Assistant instance and show the add add-on repository dialog with a specific repository URL pre-filled.](https://my.home-assistant.io/badges/supervisor_add_addon_repository.svg)](https://my.home-assistant.io/redirect/supervisor_add_addon_repository/?repository_url=https%3A//github.com/mohammed-alaa40123/wyoming-arabic-asr)
 
 This repository contains Home Assistant add-ons for Arabic Speech Recognition using Wyoming protocol.
 
@@ -24,13 +24,13 @@ Arabic speech-to-text using NVIDIA NeMo FastConformer CTC model with automatic m
 
 Click this button to add the repository directly to your Home Assistant:
 
-[![Open your Home Assistant instance and show the add add-on repository dialog with a specific repository URL pre-filled.](https://my.home-assistant.io/badges/supervisor_add_addon_repository.svg)](https://my.home-assistant.io/redirect/supervisor_add_addon_repository/?repository_url=https%3A//github.com/Mo-alaa/wyoming-arabic-asr)
+[![Open your Home Assistant instance and show the add add-on repository dialog with a specific repository URL pre-filled.](https://my.home-assistant.io/badges/supervisor_add_addon_repository.svg)](https://my.home-assistant.io/redirect/supervisor_add_addon_repository/?repository_url=https%3A//github.com/mohammed-alaa40123/wyoming-arabic-asr)
 
 ### Method 2: Manual Installation
 
 1. **Add Repository**:
    - Go to **Supervisor** → **Add-on Store** → **⋮** → **Repositories**
-   - Add: `https://github.com/Mo-alaa/wyoming-arabic-asr`
+   - Add: `https://github.com/mohammed-alaa40123/wyoming-arabic-asr`
 
 2. **Install Add-on**:
    - Find "Wyoming Arabic ASR" in the add-on store
@@ -76,8 +76,8 @@ Uses the Arabic FastConformer CTC model from:
 
 ## Support
 
-- 🐛 **Issues**: [GitHub Issues](https://github.com/Mo-alaa/wyoming-arabic-asr/issues)
-- 💬 **Discussions**: [GitHub Discussions](https://github.com/Mo-alaa/wyoming-arabic-asr/discussions)
+- 🐛 **Issues**: [GitHub Issues](https://github.com/mohammed-alaa40123/wyoming-arabic-asr/issues)
+- 💬 **Discussions**: [GitHub Discussions](https://github.com/mohammed-alaa40123/wyoming-arabic-asr/discussions)
 - 📖 **Documentation**: See individual add-on README files
 
 ## License
