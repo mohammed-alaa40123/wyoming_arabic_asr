@@ -2,7 +2,7 @@ name: "Wyoming Arabic ASR"
 version: "1.0.0"
 slug: "wyoming_arabic_asr"
 description: "Arabic Speech Recognition using FastConformer CTC model for Home Assistant"
-url: "https://github.com/mohammed-alaa40123/wyoming-arabic-asr"
+url: "https://github.com/mohammed-alaa40123/wyoming_arabic_asr"
 codenotary: "notary@home-assistant.io"
 arch:
   - aarch64
